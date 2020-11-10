@@ -1,6 +1,6 @@
 # Docs: https://caddyserver.com/docs/caddyfile
-0.0.0.0:80 {
-    root /var/www/public
+aalcala.test:80 {
+    root /var/www/aa/src/public
     fastcgi / php-fpm:9000 php {
         index index.php
     }
@@ -24,6 +24,21 @@
     #tls {
     #  dns cloudflare
     #}
+}
+
+lpd.test:80 {
+    root /var/www/aa/src/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
 }
 
 laradock1.demo:80 {

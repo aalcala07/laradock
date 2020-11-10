@@ -1508,3 +1508,11 @@ RUN apt-get clean && \
 
 # Set default work directory
 WORKDIR /var/www
+
+#
+#--------------------------------------------------------------------------
+# Update Composer
+#--------------------------------------------------------------------------
+#
+
+RUN composer self-update --2
