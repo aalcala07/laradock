@@ -4,21 +4,21 @@ networks:
   ## Needed to work with VPN
   frontend:
     driver: ${NETWORKS_DRIVER}
-    ipam:
-      config:
-        - subnet: 172.16.240.0/24
+    # ipam:
+    #   config:
+    #     - subnet: 172.16.240.0/24
   ## Needed to work with VPN
   backend:
     driver: ${NETWORKS_DRIVER}
-    ipam:
-      config:
-        - subnet: 172.16.241.0/24
+    # ipam:
+    #   config:
+    #     - subnet: 172.16.241.0/24
   ## Needed to work with VPN
   default:
     driver: ${NETWORKS_DRIVER}
-    ipam:
-      config:
-        - subnet: 172.16.242.0/24    
+    # ipam:
+    #   config:
+    #     - subnet: 172.16.242.0/24    
 
 volumes:
   mysql:
@@ -72,6 +72,7 @@ services:
 
 ### Workspace Utilities ##################################
     workspace:
+      restart: ${WORKSPACE_RESTART}
       build:
         context: ./workspace
         args:
@@ -186,6 +187,7 @@ services:
         - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
         - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
         - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+        - "${WORKSPACE_WEBSOCKETS_PORT}:6001"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -201,6 +203,7 @@ services:
 
 ### PHP-FPM ##############################################
     php-fpm:
+      restart: ${PHP_FPM_RESTART}
       build:
         context: ./php-fpm
         args:
@@ -454,6 +457,7 @@ services:
 
 ### MySQL ################################################
     mysql:
+      restart: ${MYSQL_RESTART}
       build:
         context: ./mysql
         args:
@@ -790,6 +794,7 @@ services:
 
 ### Caddy Server #########################################
     caddy:
+      restart: ${CADDY_RESTART}
       build: ./caddy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
