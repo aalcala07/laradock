@@ -1,5 +1,6 @@
 # Docs: https://caddyserver.com/docs/caddyfile
 
+
 aa.test:80 {
     root /var/www/aa/dist
 
@@ -69,6 +70,21 @@ gooaucs.test:80 {
     errors /var/log/caddy/error.log
 }
 
+gooaucs-api.test:80 {
+    root /var/www/gooaucs/src/public/api/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+}
+
 ish.test:80 {
     root /var/www/ish/src/public
     fastcgi / php-fpm:9000 php {
@@ -99,6 +115,21 @@ lap.test:80 {
     errors /var/log/caddy/error.log
 }
 
+foo.tenancy.test:80, bar.tenancy.test:80, tenancy.test:80 {
+    root /var/www/tenancy/src/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+}
+
 lpt.test:80 {
     root /var/www/lpt/src/public
     fastcgi / php-fpm:9000 php {
@@ -114,7 +145,7 @@ lpt.test:80 {
     errors /var/log/caddy/error.log
 }
 
-0.0.0.0:80, lpd.test:80 {
+lpd.test:80 {
     root /var/www/lpt/src-dev/public
     fastcgi / php-fpm:9000 php {
         index index.php
@@ -149,6 +180,36 @@ pwa.test:80 {
 
 sbs.test:80 {
     root /var/www/sbs/src/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+}
+
+monterrey.lac.test:80, lac.test:80 {
+    root /var/www/lac/src/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+}
+
+0.0.0.0:80, monterrey.test:80 {
+    root /var/www/monterrey/src/public
     fastcgi / php-fpm:9000 php {
         index index.php
     }

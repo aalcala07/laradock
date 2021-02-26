@@ -4,21 +4,21 @@ networks:
   ## Needed to work with VPN
   frontend:
     driver: ${NETWORKS_DRIVER}
-    # ipam:
-    #   config:
-    #     - subnet: 172.16.240.0/24
+    ipam:
+      config:
+        - subnet: ${FRONTEND_SUBNET}
   ## Needed to work with VPN
   backend:
     driver: ${NETWORKS_DRIVER}
-    # ipam:
-    #   config:
-    #     - subnet: 172.16.241.0/24
+    ipam:
+      config:
+        - subnet: ${BACKEND_SUBNET}
   ## Needed to work with VPN
   default:
     driver: ${NETWORKS_DRIVER}
-    # ipam:
-    #   config:
-    #     - subnet: 172.16.242.0/24    
+    ipam:
+      config:
+        - subnet: ${DEFAULT_SUBNET}
 
 volumes:
   mysql:
@@ -180,6 +180,8 @@ services:
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+        - "lac.test:${CADDY_BACKEND_IP}"
+        - "monterrey.test:${CADDY_BACKEND_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
         - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
@@ -280,6 +282,8 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+        - "lac.test:${CADDY_BACKEND_IP}"
+        - "monterrey.test:${CADDY_BACKEND_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -807,8 +811,9 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        frontend:
+        backend:
+          ipv4_address: ${CADDY_BACKEND_IP}
 
 ### phpMyAdmin ###########################################
     phpmyadmin:
