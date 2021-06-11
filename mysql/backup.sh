@@ -15,6 +15,6 @@ xtrabackup --defaults-extra-file=/etc/mysql/conf.d/my.cnf --backup --stream=xbst
 # 8. Start MySQL container
 
 
-# Crontab - Run at 3AM CDT every day
-# 0 8 * * * cd /home/ubuntu/lcmp/docker && /usr/local/bin/docker-compose exec -T mysql bash backup.sh
+# Crontab - Run at 11PM CDT every day
+# 0 4 * * * cd /home/ubuntu/lcmp/docker && /usr/local/bin/docker-compose exec -T mysql bash backup.sh
 
