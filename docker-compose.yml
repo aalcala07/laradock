@@ -189,6 +189,7 @@ services:
         - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
         - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
         - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+        - "${WORKSPACE_SVELTE_PORT}:5000"
         - "${WORKSPACE_WEBSOCKETS_PORT}:6001"
       tty: true
       environment:
@@ -466,20 +467,23 @@ services:
         context: ./mysql
         args:
           - MYSQL_VERSION=${MYSQL_VERSION}
+          - TZ=${WORKSPACE_TIMEZONE}
+          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - TZ=${WORKSPACE_TIMEZONE}
+        - MYSQL_BACKUP_S3_BUCKET=${MYSQL_BACKUP_S3_BUCKET}
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${DATA_PATH_HOST}/backups:/data/backups
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
         - backend
-
+        
 ### Percona ################################################
     percona:
       build:
