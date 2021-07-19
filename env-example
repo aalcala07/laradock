@@ -334,6 +334,7 @@ MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 MYSQL_BACKUP_S3_BUCKET=aalcala-backup
+MYSQL_ADD_CONFIG=false
 
 ### REDIS #################################################
 

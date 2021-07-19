@@ -45,10 +45,13 @@ COPY my.cnf /etc/mysql/conf.d/my.cnf
 RUN chmod 0444 /etc/mysql/conf.d/my.cnf
 
 ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_ADD_CONFIG
 
-RUN echo [client] >> /etc/mysql/conf.d/my.cnf \
+RUN if [ ${MYSQL_ADD_CONFIG} = true ]; then \
+    echo [client] >> /etc/mysql/conf.d/my.cnf \
     && echo user=root >> /etc/mysql/conf.d/my.cnf \
-    && echo password="'$MYSQL_ROOT_PASSWORD'" >> /etc/mysql/conf.d/my.cnf
+    && echo password="'$MYSQL_ROOT_PASSWORD'" >> /etc/mysql/conf.d/my.cnf \
+;fi
 
 #####################################
 # Add Scripts
